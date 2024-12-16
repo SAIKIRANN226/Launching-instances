@@ -42,3 +42,10 @@ yum install postfix -y
 VALIDATE $? "Installing postfix"
 
 echo "This is a test log" > log.txt
+
+yum install mysql -y 
+
+VALIDATE $? "Installing mysql"
+
+echo "This is a test log" > log.txt
+
