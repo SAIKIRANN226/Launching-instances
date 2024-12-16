@@ -18,6 +18,7 @@ VALIDATE() {
 
 DATE=$(date)
 
+
 if [ $ID -ne 0 ]
 then 
     echo -e "$R ERORR:: Please run the script with root user $N"
@@ -39,3 +40,5 @@ fi
 yum install postfix -y
 
 VALIDATE $? "Installing postfix"
+
+echo "This is a test log" > log.txt
