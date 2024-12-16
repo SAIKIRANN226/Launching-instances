@@ -24,4 +24,4 @@ then
     exit 1
 else
     echo -e "$G Installing git is SUCCESS
-fi 
+fi
