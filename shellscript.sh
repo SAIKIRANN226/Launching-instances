@@ -35,3 +35,7 @@ then
 else
     echo -e "$G Installing git is SUCCESS $N"
 fi
+
+yum install postfix -y
+
+VALIDATE $? "Installing postfix"
