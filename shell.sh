@@ -24,3 +24,13 @@ then
 else
     echo -e "$G Installing git is SUCCESS $N"
 fi
+
+yum install mysql -y &>> temp.log
+
+if [ $? -ne 0 ]
+then 
+    echo -e "$R Installing mysql is failed $N"
+    exit 1
+else
+    echo -e "$G Installing mysql is SUCCESS $N"
+fi
