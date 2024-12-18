@@ -7,6 +7,16 @@ G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
 
+VALIDATE() {
+    if [ $1 -ne 0 ]
+    then 
+        echo -e "$2.....$R FAILED $N"
+        exit 1
+    else
+        echo -e "$2.....$G SUCCESS $N"
+    fi 
+}
+
 if [ $ID -ne 0 ]
 then 
     echo -e "$R ERROR:: Please run the script with root user $N"
@@ -15,22 +25,14 @@ else
     echo -e "$Y Script started executing at $DATE $N"
 fi 
 
-yum install git -y &>> temp.log
-
-if [ $? -ne 0 ]
-then 
-    echo -e "$R Installing git is failed $N"
-    exit 1
-else
-    echo -e "$G Installing git is SUCCESS $N"
-fi
-
-yum install mysql -y &>> temp.log
-
-if [ $? -ne 0 ]
-then 
-    echo -e "$R Installing mysql is failed $N"
-    exit 1
-else
-    echo -e "$G Installing mysql is SUCCESS $N"
-fi
+for package in $@
+do 
+    yum list installed $package &>> temp.log
+    if [ $? -ne 0 ]
+    then 
+        yum install $package -y &>> temp.log
+        VALIDATE $? "Installation of $package"
+    else
+        echo -e "$package is already installed so .....$Y SKIPPING $N"
+    fi
+done
