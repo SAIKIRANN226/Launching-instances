@@ -1,10 +1,12 @@
 #!/bin/bash
 
+# Ensure correct number of arguments are passed
 if [ "$#" -lt 5 ]; then
   echo "Usage: $0 <ec2_name> <ami_name> <instance_type> <security_group_id> <storage_size>"
   exit 1
 fi
 
+# Get arguments
 EC2_NAME=$1
 AMI_NAME=$2
 INSTANCE_TYPE=$3
@@ -25,7 +27,7 @@ else
   echo "Found AMI: $AMI_ID"
 fi
 
-
+# Create EC2 instance using the provided details
 echo "Launching EC2 instance with name: $EC2_NAME"
 
 INSTANCE_ID=$(aws ec2 run-instances \
