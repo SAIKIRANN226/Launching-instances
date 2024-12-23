@@ -5,4 +5,17 @@ STORAGE_SIZE=8
 SECURITY_GROUP_ID="sg-062184d660bab16ba"
 
 
+AMI_ID=$(aws ec2 describe-images \
+  --filters "Name=name,Values=$AMI_NAME" \
+  --query "Images[0].ImageId" \
+  --output text)
+
+if [ "$AMI_ID" == "None" ]; then
+  echo "AMI '$AMI_NAME' not found."
+  exit 1
+else
+  echo "Found AMI: $AMI_ID"
+fi
+
 echo "Launching EC2 instance with name: $EC2_NAME"
+
