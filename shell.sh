@@ -2,7 +2,7 @@
 
 # Ensure correct number of arguments are passed
 if [ "$#" -lt 5 ]; then
-  echo "Usage: $0 <ec2_name> <ami_name> <instance_type> <security_group_id> <storage_size>"
+  echo "Usage: $0 <ec2_name> <ami_name> <instance_type> <security_group_id> <storage_size> [<tag_key1> <tag_value1> ...]"
   exit 1
 fi
 
@@ -13,7 +13,15 @@ INSTANCE_TYPE=$3
 SECURITY_GROUP_ID=$4
 STORAGE_SIZE=$5
 
-# Find the AMI ID based on the name provided (e.g., "Centos-8-DevOps-Practice")
+# Fetch any additional tags from the arguments
+TAGS=()
+for ((i = 6; i <= $#; i+=2)); do
+  TAG_KEY=${!i}
+  TAG_VALUE=${!((i+1))}
+  TAGS+=("Key=$TAG_KEY,Value=$TAG_VALUE")
+done
+
+# Find the AMI ID based on the provided name (e.g., "Centos-8-DevOps-Practice")
 AMI_ID=$(aws ec2 describe-images \
   --filters "Name=name,Values=$AMI_NAME" \
   --query "Images[0].ImageId" \
@@ -30,6 +38,7 @@ fi
 # Create EC2 instance using the provided details
 echo "Launching EC2 instance with name: $EC2_NAME"
 
+# Create the instance with tags, instance type, security group, and storage
 INSTANCE_ID=$(aws ec2 run-instances \
   --image-id "$AMI_ID" \
   --instance-type "$INSTANCE_TYPE" \
@@ -38,6 +47,7 @@ INSTANCE_ID=$(aws ec2 run-instances \
   --count 1 \
   --associate-public-ip-address \
   --tag "Key=Name,Value=$EC2_NAME" \
+  "${TAGS[@]/#/--tag }" \
   --query 'Instances[0].InstanceId' \
   --output text)
 
