@@ -1,24 +1,22 @@
 #!/bin/bash
 
-NUMBER=$1
-R="\e[31m"
-N="\e[0m"
-Y="\e[33m"
+AMI_ID="ami-0b4f379183e5706b9"  
+INSTANCE_TYPE="t2.micro"         
+KEY_NAME="your-key-pair"         
+SECURITY_GROUP="sg-062184d660bab16ba"  
+SUBNET_ID="subnet-xxxxxxxx"      
+REGION="us-east-1"              
 
-# if [ $NUMBER -gt 100 ]
-# then 
-#     echo -e "$R Given number is greater than 100 $N"
-# else
-#     echo "Given number is lessthan 100"
-# fi
+echo "Launching EC2 instance of type t2.micro..."
 
+aws ec2 run-instances \
+  --image-id $AMI_ID \
+  --instance-type $INSTANCE_TYPE \
+  --key-name $KEY_NAME \
+  --security-group-ids $SECURITY_GROUP \
+  --subnet-id $SUBNET_ID \
+  --region $REGION \
+  --count 1 \
+  --output json
 
-a=9
-b=10
-
-if [ $a -gt $b ]
-then 
-    echo -e "$R $a is greater than $b"
-else
-    echo -e "$Y $a is lessthan $b"
-fi
+echo "EC2 instance launched successfully."
