@@ -20,5 +20,5 @@ if [ $a -gt $b ]
 then 
     echo -e "$R $a is greater than $b"
 else
-    echo -e "$a is lessthan $b"
+    echo -e "$Y $a is lessthan $b"
 fi
