@@ -10,3 +10,14 @@ then
 else
     echo "Given number is lessthan 100"
 fi
+
+
+a=12
+b=10
+
+if [ $a -gt $b ]
+then 
+    echo -e "$R $a is greater than $b"
+else
+    echo -e "$a is lessthan $b"
+fi 
