@@ -19,6 +19,7 @@ fi
 
 echo "Launching EC2 instance with name: $EC2_NAME"
 
+
 INSTANCE_ID=$(aws ec2 run-instances \
   --image-id "$AMI_ID" \
   --instance-type "$INSTANCE_TYPE" \
