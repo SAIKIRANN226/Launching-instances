@@ -37,7 +37,7 @@ INSTANCE_ID=$(aws ec2 run-instances \
   --instance-type "$INSTANCE_TYPE" \
   --security-group-ids "$SECURITY_GROUP_ID" \
   #--block-device-mappings "DeviceName=/dev/xvda,Ebs={VolumeSize=$STORAGE_SIZE,VolumeType=gp2}" \
-  --count 1 \
+  #--count 1 \
   --associate-public-ip-address \
   --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$EC2_NAME}]" \
   --query 'Instances[0].InstanceId' \
