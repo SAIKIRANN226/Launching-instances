@@ -1,7 +1,7 @@
 EC2_NAME="sai_ec2"  
 AMI_NAME="Centos-8-DevOps-Practice" 
-INSTANCE_TYPE="t2.micro"     
-STORAGE_SIZE=8               
+INSTANCE_TYPE="t3.medium"     
+STORAGE_SIZE=30               
 SECURITY_GROUP_ID="sg-062184d660bab16ba"
 
 
