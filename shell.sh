@@ -1,19 +1,22 @@
 #!/bin/bash
 
 # Ensure correct number of arguments are passed
-if [ "$#" -lt 4 ]; then
-  echo "Usage: $0 <ec2_name> <instance_type> <storage_size> <security_group_id>"
+if [ "$#" -ne 1 ]; then
+  echo "Usage: $0 <ec2_name>"
   exit 1
 fi
 
 # Get arguments
 EC2_NAME=$1
-INSTANCE_TYPE=$2
-STORAGE_SIZE=$3
-SECURITY_GROUP_ID=$4
 
-# AMI Name (hardcoded to "Centos-8-DevOps-Practice")
+# Community AMI name (Centos-8-DevOps-Practice)
 AMI_NAME="Centos-8-DevOps-Practice"
+
+# Instance type (t2.micro)
+INSTANCE_TYPE="t2.micro"
+
+# EBS volume size (30 GiB)
+STORAGE_SIZE=30
 
 # Find the AMI ID based on the provided AMI name
 AMI_ID=$(aws ec2 describe-images \
@@ -35,9 +38,8 @@ echo "Launching EC2 instance with name: $EC2_NAME"
 INSTANCE_ID=$(aws ec2 run-instances \
   --image-id "$AMI_ID" \
   --instance-type "$INSTANCE_TYPE" \
-  --security-group-ids "$SECURITY_GROUP_ID" \
-  #--block-device-mappings "DeviceName=/dev/xvda,Ebs={VolumeSize=$STORAGE_SIZE,VolumeType=gp2}" \
-  #--count 1 \
+  --block-device-mappings "DeviceName=/dev/sda1,Ebs={VolumeSize=$STORAGE_SIZE}" \
+  --count 1 \
   --associate-public-ip-address \
   --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$EC2_NAME}]" \
   --query 'Instances[0].InstanceId' \
