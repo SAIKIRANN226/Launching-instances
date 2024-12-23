@@ -3,6 +3,7 @@
 NUMBER=$1
 R="\e[31m"
 N="\e[0m"
+Y="\e[33m"
 
 # if [ $NUMBER -gt 100 ]
 # then 
