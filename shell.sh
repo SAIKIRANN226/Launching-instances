@@ -12,7 +12,7 @@ else
 fi
 
 
-a=12
+a=9
 b=10
 
 if [ $a -gt $b ]
@@ -20,4 +20,4 @@ then
     echo -e "$R $a is greater than $b"
 else
     echo -e "$a is lessthan $b"
-fi 
+fi
