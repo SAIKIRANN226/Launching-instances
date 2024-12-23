@@ -39,7 +39,7 @@ INSTANCE_ID=$(aws ec2 run-instances \
   --block-device-mappings "DeviceName=/dev/sda1,Ebs={VolumeSize=$STORAGE_SIZE}" \
   --count 1 \
   --associate-public-ip-address \
-  --tag "Key=Name,Value=$EC2_NAME" \
+  --tag "Key=sai,Value=$EC2_NAME" \
   --query 'Instances[0].InstanceId' \
   --output text)
 
