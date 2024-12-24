@@ -1,4 +1,6 @@
-EC2_NAME="sai_ec2"  
+#!/bin/bash
+
+EC2_NAME="third"  
 AMI_NAME="Centos-8-DevOps-Practice" 
 INSTANCE_TYPE="t3.medium"     
 STORAGE_SIZE=30               
