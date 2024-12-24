@@ -21,4 +21,11 @@ if [ "$AMI_ID" == "None" ]; then
 fi
 
 
+INSTANCE_ID=$(aws ec2 run-instances \
+  --image-id "$AMI_ID" \
+  --instance-type "$INSTANCE_TYPE" \
+  --security-group-ids "$SECURITY_GROUP_ID" \
+  --associate-public-ip-address \
+  --output text)
+
 
