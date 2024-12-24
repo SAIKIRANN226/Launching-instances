@@ -26,7 +26,6 @@ INSTANCE_ID=$(aws ec2 run-instances \
   --image-id $AMI_ID \
   --instance-type $INSTANCE_TYPE \
   --security-group-ids $SECURITY_GROUP \
-  --no-key-name \
   --region $REGION \
   --count 1 \
   --block-device-mappings DeviceName=/dev/sda1,Ebs={VolumeSize=$VOLUME_SIZE} \
