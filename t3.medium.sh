@@ -19,6 +19,5 @@ INSTANCE_ID=$(aws ec2 run-instances \
   --region us-east-1 \
   --count 1 \
   --block-device-mappings DeviceName=/dev/sda1,Ebs={VolumeSize=30} \
-  --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=EC2-1}]' \
   --query 'Instances[0].InstanceId' \
   --output text)
