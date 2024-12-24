@@ -1,45 +1,36 @@
 #!/bin/bash
 
-# Define variables
-REGION="us-east-1"                    # Set the AWS region
-AMI_ID="ami-0b4f379183e5706b9"        # Set the AMI ID (Change to the desired AMI)
-INSTANCE_TYPE="t2.micro"              # Set the instance type (e.g., t2.micro)
-#KEY_NAME="my-key-pair"                # Set the name of your EC2 key pair
-SECURITY_GROUP="my-security-group"    # Set the security group
-TAG_NAME="MyEC2Instance"              # Set a name for your EC2 instance
+EC2_NAME="MyEC2Instance"  
+AMI_NAME="Centos-8-DevOps-Practice" 
+INSTANCE_TYPE="t3.medium"  
+SECURITY_GROUP_ID="ssg-062184d660bab16ba" 
+KEY_PAIR=""  
+STORAGE_SIZE=30 
 
-# Storage Configuration (EBS volume)
-VOLUME_SIZE=8                        # Size of the root volume in GB
-VOLUME_TYPE="gp3"                    # Volume type (e.g., gp3 for general purpose SSD)
-IOPS=300                             # IOPS for the volume (only for provisioned IOPS volumes like io1/io2)
-THROUGHPUT=125                       # Throughput in MB/s for gp3 volumes
 
-# Create EC2 instance with attached storage
+AMI_ID=$(aws ec2 describe-images --filters "Name=name,Values=$AMI_NAME" --query "Images[0].ImageId" --output text)
+
+
+if [ "$AMI_ID" == "None" ]; then
+    echo "AMI with name '$AMI_NAME' not found. Exiting..."
+    exit 1
+fi
+
+
 INSTANCE_ID=$(aws ec2 run-instances \
-    --region "$REGION" \
-    --image-id "$AMI_ID" \
-    --instance-type "$INSTANCE_TYPE" \
-    --key-name "$KEY_NAME" \
-    --security-groups "$SECURITY_GROUP" \
-    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$TAG_NAME}]" \
-    --block-device-mappings \
-        "DeviceName=/dev/sda1,Ebs={VolumeSize=$VOLUME_SIZE,VolumeType=$VOLUME_TYPE,Iops=$IOPS,Throughput=$THROUGHPUT}" \
-    --count 1 \
-    --output json \
-    --query 'Instances[0].InstanceId')
-
-# Wait for the instance to be running
-echo "Waiting for EC2 instance to be running..."
-aws ec2 wait instance-running --instance-ids "$INSTANCE_ID"
-
-# Get the public IP address of the instance
-PUBLIC_IP=$(aws ec2 describe-instances \
-    --instance-ids "$INSTANCE_ID" \
-    --query "Reservations[].Instances[].PublicIpAddress" \
+    --image-id $AMI_ID \
+    --instance-type $INSTANCE_TYPE \
+    --security-group-ids $SECURITY_GROUP_ID \
+    --block-device-mappings DeviceName=/dev/sda1,Ebs={VolumeSize=$STORAGE_SIZE} \
+    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$EC2_NAME}]" \
+    --key-name "$KEY_PAIR" \
+    --query "Instances[0].InstanceId" \
     --output text)
 
-# Output instance ID, public IP address, and storage size
-echo "EC2 instance launched successfully!"
-echo "Instance ID: $INSTANCE_ID"
-echo "Public IP: $PUBLIC_IP"
-echo "Storage Size: $VOLUME_SIZE GB"
+# Check if the instance was launched successfully
+if [ "$INSTANCE_ID" == "None" ]; then
+    echo "Failed to launch EC2 instance. Exiting..."
+    exit 1
+else
+    echo "EC2 instance $EC2_NAME (ID: $INSTANCE_ID) has been successfully launched."
+fi
