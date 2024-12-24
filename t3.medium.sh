@@ -2,7 +2,7 @@
 
 # Define variables
 REGION="us-east-1"                    # Set the AWS region
-AMI_ID="ami-0c55b159cbfafe1f0"        # Set the AMI ID (Change to the desired AMI)
+AMI_ID="ami-0b4f379183e5706b9"        # Set the AMI ID (Change to the desired AMI)
 INSTANCE_TYPE="t2.micro"              # Set the instance type (e.g., t2.micro)
 #KEY_NAME="my-key-pair"                # Set the name of your EC2 key pair
 SECURITY_GROUP="my-security-group"    # Set the security group
