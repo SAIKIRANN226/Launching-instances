@@ -21,7 +21,6 @@ INSTANCE_ID=$(aws ec2 run-instances \
     --image-id $AMI_ID \
     --instance-type $INSTANCE_TYPE \
     --security-group-ids $SECURITY_GROUP_ID \
-    --block-device-mappings DeviceName=/dev/sda1,Ebs={VolumeSize=$STORAGE_SIZE} \
     --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$EC2_NAME}]" \
     --key-name "$KEY_PAIR" \
     --query "Instances[0].InstanceId" \
