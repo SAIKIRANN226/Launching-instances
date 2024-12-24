@@ -28,7 +28,6 @@ INSTANCE_ID=$(aws ec2 run-instances \
   --security-group-ids $SECURITY_GROUP \
   --region $REGION \
   --count 1 \
-  --query 'Instances[0].InstanceId' \
   --output text)
 
 
