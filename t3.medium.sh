@@ -1,23 +1,42 @@
 #!/bin/bash
 
-AMI_ID=$(aws ec2 describe-images \
-  --filters "Name=name,Values=Centos-8-DevOps-Practice" \
-  --query "Images[0].ImageId" \
-  --output text)
+REGION="us-east-1"                    
+AMI_ID="ami-0c55b159cbfafe1f0"        
+INSTANCE_TYPE="t2.micro"              
+SECURITY_GROUP="ssg-062184d660bab16ba"   
+TAG_NAME="MyEC2Instance"              
 
-
-if [ "$AMI_ID" == "None" ]; then
-  echo "Error: AMI 'Centos-8-DevOps-Practice' not found."
-  exit 1
-fi
+# Storage Configuration (EBS volume)
+VOLUME_SIZE=30                        
+VOLUME_TYPE="gp3"                    
+IOPS=300                             
+THROUGHPUT=125                       
 
 
 INSTANCE_ID=$(aws ec2 run-instances \
-  --image-id $AMI_ID \
-  --instance-type t3.medium \
-  --security-group-ids ssg-062184d660bab16ba \
-  --region us-east-1 \
-  --count 1 \
-  --block-device-mappings = /dev/xvda,Ebs={VolumeSize=30} \
-  --query 'Instances[0].InstanceId' \
-  --output text)
+    --region "$REGION" \
+    --image-id "$AMI_ID" \
+    --instance-type "$INSTANCE_TYPE" \
+    --security-groups "$SECURITY_GROUP" \
+    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$TAG_NAME}]" \
+    --block-device-mappings \
+        "DeviceName=/dev/sda1,Ebs={VolumeSize=$VOLUME_SIZE,VolumeType=$VOLUME_TYPE,Iops=$IOPS,Throughput=$THROUGHPUT}" \
+    --count 1 \
+    --output json \
+    --query 'Instances[0].InstanceId')
+
+# Wait for the instance to be running
+echo "Waiting for EC2 instance to be running..."
+aws ec2 wait instance-running --instance-ids "$INSTANCE_ID"
+
+# Get the public IP address of the instance
+PUBLIC_IP=$(aws ec2 describe-instances \
+    --instance-ids "$INSTANCE_ID" \
+    --query "Reservations[].Instances[].PublicIpAddress" \
+    --output text)
+
+# Output instance ID and public IP address
+echo "EC2 instance launched successfully!"
+echo "Instance ID: $INSTANCE_ID"
+echo "Public IP: $PUBLIC_IP"
+echo "Storage Size: $VOLUME_SIZE GB"
