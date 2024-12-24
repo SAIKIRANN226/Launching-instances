@@ -28,8 +28,6 @@ INSTANCE_ID=$(aws ec2 run-instances \
   --security-group-ids $SECURITY_GROUP \
   --region $REGION \
   --count 1 \
-  --block-device-mappings DeviceName=/dev/sda1,Ebs={VolumeSize=$VOLUME_SIZE} \
-  --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=MyDevOpsInstance}]' \
   --query 'Instances[0].InstanceId' \
   --output text)
 
