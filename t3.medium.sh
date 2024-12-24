@@ -18,6 +18,6 @@ INSTANCE_ID=$(aws ec2 run-instances \
   --security-group-ids ssg-062184d660bab16ba \
   --region us-east-1 \
   --count 1 \
-  --block-device-mappings /dev/xvda,Ebs={VolumeSize=30} \
+  --block-device-mappings = /dev/xvda,Ebs={VolumeSize=30} \
   --query 'Instances[0].InstanceId' \
   --output text)
