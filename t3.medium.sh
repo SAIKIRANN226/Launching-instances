@@ -29,3 +29,4 @@ INSTANCE_ID=$(aws ec2 run-instances \
   --associate-public-ip-address \
   --output text)
 
+# ./<scrip-name>.sh to run the script
