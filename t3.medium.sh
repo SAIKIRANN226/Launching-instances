@@ -1,29 +1,18 @@
 #!/bin/bash
 
-REGION="us-east-1"                    
-AMI_NAME="Centos-8-DevOps-Practice"   
-INSTANCE_TYPE="t2.micro"              
-KEY_NAME="my-key-pair"                
-SECURITY_GROUP="my-security-group"    
-TAG_NAME="MyEC2Instance"              
+# Define variables
+REGION="us-east-1"                    # Set the AWS region
+AMI_ID="ami-0c55b159cbfafe1f0"        # Set the AMI ID (Change to the desired AMI)
+INSTANCE_TYPE="t2.micro"              # Set the instance type (e.g., t2.micro)
+#KEY_NAME="my-key-pair"                # Set the name of your EC2 key pair
+SECURITY_GROUP="my-security-group"    # Set the security group
+TAG_NAME="MyEC2Instance"              # Set a name for your EC2 instance
 
 # Storage Configuration (EBS volume)
 VOLUME_SIZE=8                        # Size of the root volume in GB
 VOLUME_TYPE="gp3"                    # Volume type (e.g., gp3 for general purpose SSD)
 IOPS=300                             # IOPS for the volume (only for provisioned IOPS volumes like io1/io2)
 THROUGHPUT=125                       # Throughput in MB/s for gp3 volumes
-
-# Fetch the AMI ID based on the AMI name (Centos-8-DevOps-Practice)
-AMI_ID=$(aws ec2 describe-images \
-    --region "$REGION" \
-    --filters "Name=name,Values=$AMI_NAME" \
-    --query "Images[0].ImageId" \
-    --output text)
-
-if [ "$AMI_ID" == "None" ]; then
-    echo "AMI with the name '$AMI_NAME' not found. Exiting."
-    exit 1
-fi
 
 # Create EC2 instance with attached storage
 INSTANCE_ID=$(aws ec2 run-instances \
