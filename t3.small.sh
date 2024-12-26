@@ -1,7 +1,7 @@
-EC2_NAME="first"  
-AMI_NAME="Centos-8-DevOps-Practice" 
-INSTANCE_TYPE="t3.medium"     
-#STORAGE_SIZE=30               
+EC2_NAME="first"
+AMI_NAME="Centos-8-DevOps-Practice"
+INSTANCE_TYPE="t3.medium"
+STORAGE_SIZE=30
 SECURITY_GROUP_ID="sg-062184d660bab16ba"
 
 
@@ -25,7 +25,7 @@ INSTANCE_ID=$(aws ec2 run-instances \
   --instance-type "$INSTANCE_TYPE" \
   --security-group-ids "$SECURITY_GROUP_ID" \
   --associate-public-ip-address \
+  --block-device-mappings "DeviceName=/dev/sda1,Ebs={VolumeSize=$STORAGE_SIZE}" \
   --output text)
 
-
-
+echo "EC2 instance launched with ID: $INSTANCE_ID"
