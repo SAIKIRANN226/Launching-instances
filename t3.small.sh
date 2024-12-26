@@ -28,4 +28,5 @@ INSTANCE_ID=$(aws ec2 run-instances \
   --block-device-mappings "DeviceName=/dev/sda1,Ebs={VolumeSize=$STORAGE_SIZE}" \
   --output text)
 
-echo "EC2 instance launched with ID: $INSTANCE_ID"
+echo "Running EC2 instance command with: --block-device-mappings 'DeviceName=/dev/sda1,Ebs={VolumeSize=$STORAGE_SIZE}'"
+
