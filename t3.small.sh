@@ -1,9 +1,7 @@
-#!/bin/bash
-
-EC2_NAME="ec2-name"  
+EC2_NAME="first"  
 AMI_NAME="Centos-8-DevOps-Practice" 
-INSTANCE_TYPE="t3.small"     
-STORAGE_SIZE=8               
+INSTANCE_TYPE="t2.micro"     
+STORAGE_SIZE=30               
 SECURITY_GROUP_ID="sg-062184d660bab16ba"
 
 
@@ -28,3 +26,6 @@ INSTANCE_ID=$(aws ec2 run-instances \
   --security-group-ids "$SECURITY_GROUP_ID" \
   --associate-public-ip-address \
   --output text)
+
+
+
