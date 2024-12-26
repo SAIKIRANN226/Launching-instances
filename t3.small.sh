@@ -1,6 +1,6 @@
 EC2_NAME="first"  
 AMI_NAME="Centos-8-DevOps-Practice" 
-INSTANCE_TYPE="t2.micro"     
+INSTANCE_TYPE="t3.small"     
 STORAGE_SIZE=30               
 SECURITY_GROUP_ID="sg-062184d660bab16ba"
 
