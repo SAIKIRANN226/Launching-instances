@@ -27,5 +27,5 @@ INSTANCE_ID=$(aws ec2 run-instances \
   --associate-public-ip-address \
   --output text)
 
-
+# ./t2.micro.sh command to run 
 
