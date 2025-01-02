@@ -1,4 +1,4 @@
-EC2_NAME="Ec2-name"  
+EC2_NAME="Shell"  
 AMI_NAME="Centos-8-DevOps-Practice" 
 INSTANCE_TYPE="t2.micro"     
 STORAGE_SIZE=10               
